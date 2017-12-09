@@ -24,13 +24,13 @@ public class Tagger {
     }
 
     //Returned a tagged array from a given sentence
-    public String[]tag(String sentence){
+    public String[]tagSentence(String sentence){
         //Tokenizing the sentence using WhitespaceTokenizer class
         WhitespaceTokenizer whitespaceTokenizer=WhitespaceTokenizer.INSTANCE;
         String[]tokens=whitespaceTokenizer.tokenize(sentence);
 
         //Generating tags
-        String[]tags=tag.tag(tokens);
+        String[]tags = tag.tag(tokens);
         return tags;
     }
 
