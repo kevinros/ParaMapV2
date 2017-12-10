@@ -17,20 +17,20 @@ public class Tagger {
 
 
         InputStream inputStream = new
-            FileInputStream("src/models/en-pos-maxent.bin");
+                FileInputStream("src/models/en-pos-maxent.bin");
         POSModel model = new POSModel(inputStream);
         POSTaggerME tag = new POSTaggerME(model);
 
     }
 
     //Returned a tagged array from a given sentence
-    public String[]tag(String sentence){
+    public String[]tagSentence(String sentence){
         //Tokenizing the sentence using WhitespaceTokenizer class
         WhitespaceTokenizer whitespaceTokenizer=WhitespaceTokenizer.INSTANCE;
         String[]tokens=whitespaceTokenizer.tokenize(sentence);
 
         //Generating tags
-        String[]tags=tag.tag(tokens);
+        String[]tags = tag.tag(tokens);
         return tags;
     }
 
@@ -39,4 +39,4 @@ public class Tagger {
 
 
 
-    }
+}

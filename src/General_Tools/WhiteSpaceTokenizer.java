@@ -35,11 +35,12 @@ public class WhiteSpaceTokenizer implements Tokenizer {
     public void tokenize(String sentence) {
         String[] tokenArray = this.tokenizer.tokenize(sentence);
         this.tokens = new ArrayList<>(Arrays.asList(tokenArray));
+        this.removePunctuations();
 
     }
 
     // removePunctuation() removes any punctuation found in the token list.
-    public void removePunctuations() {
+    private void removePunctuations() {
         for (int i = 0; i < this.tokens.size(); i++) {
             // If our token is a punctuation mark, we want to remove it.
             if (Pattern.matches("\\p{Punct}", this.tokens.get(i))) {
