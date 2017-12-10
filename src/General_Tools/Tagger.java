@@ -46,6 +46,9 @@ public class Tagger {
 
         //Sets the sentence field
         this.JustSentence.addAll(Arrays.asList(this.tagsAndSentence.getSentence()));
+
+        //Sets the Sentence with Tags field
+        this.SentenceWithTags = tagsAndSentence.toString();
     }
 
     public ArrayList<String> getTags(){
@@ -55,7 +58,7 @@ public class Tagger {
         return this.JustSentence;
     }
     public String getSentenceWithTags(){
-        return tagsAndSentence.toString();
+        return this.SentenceWithTags;
     }
 
     public static void main(String[] args) throws Exception {
