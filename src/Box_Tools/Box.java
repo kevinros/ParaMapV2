@@ -6,15 +6,18 @@ public class Box {
 
     private Head boxHead;
     private Body boxBody;
+    private ArrayList<Box> boxConnections;
 
     public Box() {
         this.boxHead = new Head();
         this.boxBody = new Body();
+        this.boxConnections = new ArrayList<>();
     }
 
     public Box(Head boxHead, Body boxBody) {
         this.boxHead = boxHead;
         this.boxBody = boxBody;
+        this.boxConnections = new ArrayList<>();
     }
 
     public String getHead() {
