@@ -40,7 +40,7 @@ public class WhiteSpaceTokenizer implements Tokenizer {
     }
 
     // removePunctuation() removes any punctuation found in the token list.
-    private void removePunctuations() {
+    public void removePunctuations() {
         for (int i = 0; i < this.tokens.size(); i++) {
             // If our token is a punctuation mark, we want to remove it.
             if (Pattern.matches("\\p{Punct}", this.tokens.get(i))) {
