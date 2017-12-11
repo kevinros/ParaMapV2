@@ -51,14 +51,17 @@ public class Tagger {
         this.SentenceWithTags = tagsAndSentence.toString();
     }
 
-    public ArrayList<String> getTags(){
-        return this.JustTags;
-    }
+    public ArrayList<String> getTags(){ return this.JustTags; }
     public ArrayList<String> getSentence(){
         return this.JustSentence;
     }
     public String getSentenceWithTags(){
         return this.SentenceWithTags;
+    }
+    public void clear() {
+        this.JustTags.clear();
+        this.JustSentence.clear();
+        this.SentenceWithTags = "";
     }
 
     public static void main(String[] args) throws Exception {
@@ -71,14 +74,20 @@ public class Tagger {
         ArrayList<String> testSentence = new ArrayList<>(test.getSentence());
 
 
-        for(String s : testTags){
-            System.out.println(s);
-        }
+     //   for(String s : testTags){
+       //     System.out.println(s);
+        //}
         for(String s : testSentence){
             System.out.println(s);
         }
 
         System.out.println(testSentenceAndTags);
+        test.clear();
+        test.tagSentence("A man is afraid");
+        ArrayList<String> testSentence2 = new ArrayList<>(test.getSentence());
+        for(String s : testSentence2){
+            System.out.println(s);
+        }
 
 
 

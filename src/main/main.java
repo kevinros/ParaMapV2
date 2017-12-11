@@ -1,5 +1,6 @@
 package main;
 
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Map;
 import Box_Tools.Box;
 import Box_Tools.BoxBuilder;
 import General_Tools.*;
+import org.atteo.evo.inflector.English;
 
 
 public class main {
@@ -30,7 +32,6 @@ public class main {
 
         for (Object s : sentences) {
             wsTokenizer.tokenize((String)s);
-            wsTokenizer.removePunctuations();
             tokens.addAll(wsTokenizer.getTokens());
         }
 
@@ -82,6 +83,18 @@ public class main {
         for (Box b : boxes) {
             b.printBoxContents();
         }
+
+        TextSimplifier ts = new TextSimplifier(newSentence);
+        ArrayList<String> taggedSentences = ts.getTaggedSentences();
+
+        for (String string : taggedSentences) {
+            System.out.println(string);
+        }
+
+        /*English english = new English();
+        System.out.println(english.getPlural("fish", 2));*/
+
+
 
 
 

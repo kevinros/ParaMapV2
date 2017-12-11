@@ -2,6 +2,7 @@ package General_Tools;
 
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
+import opennlp.tools.tokenize.WhitespaceTokenizer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,17 +16,19 @@ public class WhiteSpaceTokenizer implements Tokenizer {
     //  whitespace tokenizer model. (i.e. every word)
 
     // Class Variables
-    private TokenizerME tokenizer;
+    //private TokenizerME tokenizer;
+    private WhitespaceTokenizer wst;
     private ArrayList<String> tokens;
 
     // WhiteSpaceTokenizer() creates a tokenizer model and instantiates an ArrayList<String> to
     //  hold the tokenized tokens.
     public WhiteSpaceTokenizer() throws Exception {
 
-        File file = new File("src/models/en-token.bin");
+        /*File file = new File("src/models/en-token.bin");
         InputStream inputStream = new FileInputStream(file);
-        TokenizerModel tokenModel = new TokenizerModel(inputStream); // Loading the Tokenizer model
-        this.tokenizer = new TokenizerME(tokenModel); // Instantiating the TokenizerME class
+        TokenizerModel tokenModel = new TokenizerModel(inputStream); // Loading the Tokenizer models
+        this.tokenizer = new TokenizerME(tokenModel); // Instantiating the TokenizerME class */
+        this.wst = WhitespaceTokenizer.INSTANCE;
         this.tokens = new ArrayList<>();
 
     }
@@ -33,7 +36,7 @@ public class WhiteSpaceTokenizer implements Tokenizer {
     // tokenize(String) takes in a String, in this case a sentence, and splits it by whitespace using
     //  the tokenizer.
     public void tokenize(String sentence) {
-        String[] tokenArray = this.tokenizer.tokenize(sentence);
+        String[] tokenArray = this.wst.tokenize(sentence);
         this.tokens = new ArrayList<>(Arrays.asList(tokenArray));
         this.removePunctuations();
 
