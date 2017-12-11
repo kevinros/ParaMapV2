@@ -134,8 +134,6 @@ public class SubPredSeparator{
         test.doALot(testSentences);
         HashMap<String, ArrayList<ArrayList<String>>> testMap = new HashMap<>(test.getMap());
         System.out.println(testMap.keySet());
->>>>>>> MinorChange
-
         String body = "";
         for(String head : testMap.keySet()) {
             System.out.println("Head of sentence is: " + head);
