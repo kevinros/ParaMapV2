@@ -52,7 +52,7 @@ public class SubPredSeparator {
     public static void main(String[] args) throws Exception {
         SubPredSeparator test = new SubPredSeparator();
 
-        test.createMap("Saturn is a planet");
+        test.createMap("Saturn is a planet. Saturn is big");
 
         String testHead = test.getHead();
         System.out.println(testHead);

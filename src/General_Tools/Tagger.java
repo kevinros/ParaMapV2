@@ -51,9 +51,7 @@ public class Tagger {
         this.SentenceWithTags = tagsAndSentence.toString();
     }
 
-    public ArrayList<String> getTags(){
-        return this.JustTags;
-    }
+    public ArrayList<String> getTags(){ return this.JustTags; }
     public ArrayList<String> getSentence(){
         return this.JustSentence;
     }
