@@ -6,13 +6,17 @@ import java.util.HashMap;
 public class TextSimplifier {
 
     private HashMap<String, Integer> wordFrequencyMap;
-    private ArrayList<String> taggedSentenceTokens;
+    private ArrayList<String> taggedSentences;
+    private ArrayList<ArrayList<String>> tokenizedTaggedSentences;
     private String input;
+    private ArrayList<String> tokens;
+    private ArrayList<String> tags;
 
     public TextSimplifier(String input) {
         this.input = input;
         this.wordFrequencyMap = new HashMap<>();
-        this.taggedSentenceTokens = new ArrayList<>();
+        this.taggedSentences = new ArrayList<>();
+        this.tokenizedTaggedSentences = new ArrayList<>();
     }
 
     private void frequencyMap() throws Exception {
@@ -31,12 +35,96 @@ public class TextSimplifier {
         return this.wordFrequencyMap;
     }
 
-    private void tagSentences() {
+    private void tagSentences() throws Exception {
+        ArrayList<String> tokens;
+        SentenceTokenizer st = new SentenceTokenizer();
+        Tagger tagger = new Tagger();
+
+        st.tokenize(this.input);
+        tokens = st.getTokens();
+
+        for (String token : tokens) {
+            tagger.tagSentence(token);
+            this.taggedSentences.add(tagger.getSentenceWithTags());
+        }
+
+        this.tokens = tagger.getSentence();
+        this.tags = tagger.getTags();
+
+        this.resolvePronouns();
 
     }
 
-    public ArrayList<String> getTaggedSentenceTokens() {
+    private void resolvePronouns() throws Exception {
+        WhiteSpaceTokenizer wst = new WhiteSpaceTokenizer();
+        ArrayList<String> subjects = new ArrayList<>();
+
+        // Tokenize the tagged sentences by whitespace so that we can extract individual
+        //  words for replacement.
+        for (String sentence : this.taggedSentences) {
+            wst.tokenize(sentence);
+            this.tokenizedTaggedSentences.add(wst.getTokens());
+        }
+
+        for (ArrayList<String> string : this.tokenizedTaggedSentences) {
+            for (String str : string) {
+                System.out.println(str);
+            }
+        }
+
+        subjects = createSubjectList();
+        this.replacePronounsWithNouns(subjects);
+
+        for (int i = 0; i < this.tokenizedTaggedSentences.size(); i++) {
+            String sentence = "";
+            for (int j = 0; j < this.tokenizedTaggedSentences.get(i).size()-1; j++) {
+                sentence += this.tokenizedTaggedSentences.get(i).get(j) + " ";
+            }
+            sentence += this.tokenizedTaggedSentences.get(i).get(this.tokenizedTaggedSentences.get(i).size()-1);
+            this.taggedSentences.set(i, sentence);
+        }
+
+        this.removeTags();
+
+    }
+
+    private ArrayList<String> createSubjectList() {
+        ArrayList<String> subjects = new ArrayList<>();
+
+        for (int i = 0; i < this.tokenizedTaggedSentences.size(); i++) {
+            for (int j = 0; j < this.tokenizedTaggedSentences.get(i).size(); j++) {
+                if (this.tokenizedTaggedSentences.get(i).get(j).contains("_PRP") ||
+                        this.tokenizedTaggedSentences.get(i).get(j).contains("_NN")) {
+                    subjects.add(this.tokenizedTaggedSentences.get(i).get(j));
+                    break;
+                }
+
+            }
+        }
+
+        return subjects;
+    }
+
+    private void replacePronounsWithNouns(ArrayList<String> subjects) {
+        for (int i = 0; i < this.tokenizedTaggedSentences.size(); i++) {
+            for (int j = 0; j < this.tokenizedTaggedSentences.get(i).size(); j++) {
+                if (this.tokenizedTaggedSentences.get(i).get(j).contains("_PRP")) {
+                    this.tokenizedTaggedSentences.get(i).set(j, subjects.get(i-1));
+                    subjects.set(i, subjects.get(i-1));
+                }
+            }
+        }
+    }
+
+    private void removeTags() {
+        for (int i = 0; i < this.taggedSentences.size(); i++) {
+            String str = this.taggedSentences.get(i);
+            this.taggedSentences.set(i, str.replaceAll("(_(\\w|\\p{Punct})+)",""));
+        }
+    }
+
+    public ArrayList<String> getTaggedSentences() throws Exception {
         this.tagSentences();
-        return this.taggedSentenceTokens;
+        return this.taggedSentences;
     }
 }
