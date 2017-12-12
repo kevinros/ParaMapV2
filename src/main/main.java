@@ -10,6 +10,7 @@ import java.util.Map;
 
 import Box_Tools.Box;
 import Box_Tools.BoxBuilder;
+import Box_Tools.ParaMap;
 import General_Tools.*;
 
 
@@ -25,11 +26,20 @@ public class main {
 
         SubPredSeparator subPredSeparator = new SubPredSeparator();
         subPredSeparator.createMap(simplifiedSentences);
-        HashMap<String, ArrayList<ArrayList<String>>> testMap = subPredSeparator.getMap();
+        HashMap<String, ArrayList<ArrayList<String>>> tokenizedSubPreds = subPredSeparator.getTokenizedSubPreds();
+        HashMap<String, ArrayList<String>> subPreds = subPredSeparator.getSubPreds();
 
-        System.out.println(testMap.keySet());
+        ParaMap paraMaps = new ParaMap();
+        BoxBuilder boxBuilder = new BoxBuilder();
 
-       subPredSeparator.printMap();
+        for (String head : subPreds.keySet()) {
+            Box box = boxBuilder.buildBox(head, subPreds.get(head));
+            paraMaps.addBox(box);
+        }
+
+        paraMaps.printMap();
+
+
 
 
     }
