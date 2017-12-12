@@ -6,7 +6,8 @@ import java.util.HashMap;
 
 public class SubPredSeparator{
     //Class Variables
-    private HashMap<String, ArrayList<ArrayList<String>>> HeadToBod;
+    private HashMap<String, ArrayList<ArrayList<String>>> tokenizedSubPreds;
+    private HashMap<String, ArrayList<String>> subPreds;
     private String head;
     private ArrayList<String> body;
     private Tagger tagger;
@@ -16,7 +17,8 @@ public class SubPredSeparator{
     public SubPredSeparator() throws Exception{
         this.head = "";
         this.body = new ArrayList<>();
-        this.HeadToBod = new HashMap<>();
+        this.tokenizedSubPreds = new HashMap<>();
+        this.subPreds = new HashMap<>();
         this.tagger = new Tagger();
         this.listofListofSentences = new ArrayList<>();
         this.listOfListOfTags = new ArrayList<>();
@@ -64,6 +66,8 @@ public class SubPredSeparator{
             //Clean slate for next iteration
             clear();
         }
+
+        createSubPreds();
     }
 
     //Adds sentences and tags to arrayLists
@@ -83,16 +87,16 @@ public class SubPredSeparator{
     private void addToMap() {
         String head = this.head.toLowerCase();
         ArrayList<String> newbie = new ArrayList<>(this.body);
-        if (this.HeadToBod.containsKey(head))
-            if(this.HeadToBod.get(head).contains(newbie)){
+        if (this.tokenizedSubPreds.containsKey(head))
+            if(this.tokenizedSubPreds.get(head).contains(newbie)){
             return;
             }
             else {
-                this.HeadToBod.get(head).add(newbie);
+                this.tokenizedSubPreds.get(head).add(newbie);
             }
         else {
-            this.HeadToBod.put(head, new ArrayList<>());
-            this.HeadToBod.get(head).add(newbie);
+            this.tokenizedSubPreds.put(head, new ArrayList<>());
+            this.tokenizedSubPreds.get(head).add(newbie);
         }
     }
     //Allows class reusability
@@ -123,15 +127,34 @@ public class SubPredSeparator{
 
     }
 
-    public HashMap<String, ArrayList<ArrayList<String>>> getMap() {
-        return this.HeadToBod;
+    public HashMap<String, ArrayList<ArrayList<String>>> getTokenizedSubPreds() {
+        return this.tokenizedSubPreds;
+    }
+
+    public HashMap<String, ArrayList<String>> getSubPreds() {
+        return this.subPreds;
+    }
+
+    private void createSubPreds() {
+        String body = "";
+        for(String head : this.tokenizedSubPreds.keySet()) {
+            ArrayList<String> concatenatedBody = new ArrayList<>();
+            for (ArrayList<String> bods : this.tokenizedSubPreds.get(head)) {
+                for(String s : bods) {
+                    body += s + " ";
+                }
+                concatenatedBody.add(body.trim());
+                body = "";
+            }
+            this.subPreds.put(head, concatenatedBody);
+        }
     }
 
     public void printMap(){
         String body = "";
-        for(String head : this.HeadToBod.keySet()) {
+        for(String head : this.tokenizedSubPreds.keySet()) {
             System.out.println("Head of sentence is: " + head);
-            for (ArrayList<String> bods : this.HeadToBod.get(head)) {
+            for (ArrayList<String> bods : this.tokenizedSubPreds.get(head)) {
                 for(String s : bods) {
                     body += s + " ";
                 }
