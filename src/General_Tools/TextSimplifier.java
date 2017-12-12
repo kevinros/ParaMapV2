@@ -6,16 +6,14 @@ import java.util.HashMap;
 public class TextSimplifier {
 
     private HashMap<String, Integer> wordFrequencyMap;
-    private ArrayList<String> taggedSentences;
+    private ArrayList<String> simplifiedSentences;
     private ArrayList<ArrayList<String>> tokenizedTaggedSentences;
     private String input;
-    private ArrayList<String> tokens;
-    private ArrayList<String> tags;
 
     public TextSimplifier(String input) {
         this.input = input;
         this.wordFrequencyMap = new HashMap<>();
-        this.taggedSentences = new ArrayList<>();
+        this.simplifiedSentences = new ArrayList<>();
         this.tokenizedTaggedSentences = new ArrayList<>();
     }
 
@@ -45,11 +43,8 @@ public class TextSimplifier {
 
         for (String token : tokens) {
             tagger.tagSentence(token);
-            this.taggedSentences.add(tagger.getSentenceWithTags());
+            this.simplifiedSentences.add(tagger.getSentenceWithTags());
         }
-
-        this.tokens = tagger.getSentence();
-        this.tags = tagger.getTags();
 
         this.resolvePronouns();
 
@@ -61,15 +56,9 @@ public class TextSimplifier {
 
         // Tokenize the tagged sentences by whitespace so that we can extract individual
         //  words for replacement.
-        for (String sentence : this.taggedSentences) {
+        for (String sentence : this.simplifiedSentences) {
             wst.tokenize(sentence);
             this.tokenizedTaggedSentences.add(wst.getTokens());
-        }
-
-        for (ArrayList<String> string : this.tokenizedTaggedSentences) {
-            for (String str : string) {
-                System.out.println(str);
-            }
         }
 
         subjects = createSubjectList();
@@ -81,7 +70,7 @@ public class TextSimplifier {
                 sentence += this.tokenizedTaggedSentences.get(i).get(j) + " ";
             }
             sentence += this.tokenizedTaggedSentences.get(i).get(this.tokenizedTaggedSentences.get(i).size()-1);
-            this.taggedSentences.set(i, sentence);
+            this.simplifiedSentences.set(i, sentence);
         }
 
         this.removeTags();
@@ -117,14 +106,14 @@ public class TextSimplifier {
     }
 
     private void removeTags() {
-        for (int i = 0; i < this.taggedSentences.size(); i++) {
-            String str = this.taggedSentences.get(i);
-            this.taggedSentences.set(i, str.replaceAll("(_(\\w|\\p{Punct})+)",""));
+        for (int i = 0; i < this.simplifiedSentences.size(); i++) {
+            String str = this.simplifiedSentences.get(i);
+            this.simplifiedSentences.set(i, str.replaceAll("(_(\\w|\\p{Punct})+)",""));
         }
     }
 
-    public ArrayList<String> getTaggedSentences() throws Exception {
+    public ArrayList<String> getSimplifiedSentences() throws Exception {
         this.tagSentences();
-        return this.taggedSentences;
+        return this.simplifiedSentences;
     }
 }
