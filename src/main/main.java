@@ -24,7 +24,7 @@ public class main {
         ArrayList<String> simplifiedSentences = textSimplifier.getSimplifiedSentences();
 
         SubPredSeparator subPredSeparator = new SubPredSeparator();
-        subPredSeparator.doALot(simplifiedSentences);
+        subPredSeparator.createMap(simplifiedSentences);
         HashMap<String, ArrayList<ArrayList<String>>> testMap = subPredSeparator.getMap();
 
         System.out.println(testMap.keySet());

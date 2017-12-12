@@ -84,7 +84,12 @@ public class SubPredSeparator{
         String head = this.head.toLowerCase();
         ArrayList<String> newbie = new ArrayList<>(this.body);
         if (this.HeadToBod.containsKey(head))
-            this.HeadToBod.get(head).add(newbie);
+            if(this.HeadToBod.get(head).contains(newbie)){
+            return;
+            }
+            else {
+                this.HeadToBod.get(head).add(newbie);
+            }
         else {
             this.HeadToBod.put(head, new ArrayList<>());
             this.HeadToBod.get(head).add(newbie);
