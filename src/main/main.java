@@ -29,38 +29,10 @@ public class main {
 
         System.out.println(testMap.keySet());
 
-        String body = "";
-        for(String head : testMap.keySet()) {
-            System.out.println("Head of sentence is: " + head);
-            for (ArrayList<String> bods : testMap.get(head)) {
-                for(String s : bods) {
-                    body += s + " ";
-                }
-                System.out.println("Body of sentence is: " +body);
-                body = "";
-            }
-            System.out.println();
-        }
+       subPredSeparator.printMap();
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
 
