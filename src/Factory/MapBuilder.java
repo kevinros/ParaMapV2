@@ -32,14 +32,26 @@ public class MapBuilder {
 
         buildBoxForAllSubjects(this.subPreds);
 
+
+
         return this.map;
     }
 
     private void buildBoxForAllSubjects(HashMap<String, ArrayList<String>> subPreds) {
         BoxBuilder boxBuilder = new BoxBuilder();
+        // all the jason things are for testing purposes
+        Box jasonBox = null;
         for (String head : subPreds.keySet()) {
             Box box = boxBuilder.buildBox(head, subPreds.get(head));
+            if (box.getHead().equals("Jason")) {
+                jasonBox = box;
+            }
             this.map.addBox(box);
         }
+
+        jasonBox.addBoxConnection(this.map.getMap().get(0)); // Ralph
+        jasonBox.addBoxConnection(this.map.getMap().get(2)); // Mary
+
+
     }
 }
