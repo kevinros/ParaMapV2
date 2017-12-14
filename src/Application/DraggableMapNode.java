@@ -1,27 +1,41 @@
 package Application;
 
+import Box_Tools.Body;
+import Box_Tools.Box;
+import Box_Tools.Head;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
 import javax.swing.*;
 import javax.swing.border.*;
 
-public class DraggableLabel extends JSplitPane {
+public class DraggableMapNode extends JSplitPane {
     Point pressPoint;
     Point releasePoint;
     DragProcessor dragProcessor = new DragProcessor();
 
-    public DraggableLabel(int split, JPanel c1, JPanel c2) {
-        super(split, c1, c2);
+
+
+    public DraggableMapNode(JPanel head, JPanel body) {
+        super(JSplitPane.VERTICAL_SPLIT, head, body);
+        super.setBounds(getRandomInteger(100, 400), getRandomInteger(100, 400), 200, 150);
         setBorder(new CompoundBorder(new EtchedBorder(EtchedBorder.LOWERED), new EmptyBorder(0, 5, 0, 5)));
         addMouseListener(dragProcessor);
         addMouseMotionListener(dragProcessor);
+    }
+
+    private int getRandomInteger(int lowerBound, int upperBound) {
+        Random r = new Random();
+        int result = r.nextInt(upperBound - lowerBound) + lowerBound;
+        return result;
     }
 
     protected class DragProcessor extends MouseAdapter implements MouseListener, MouseMotionListener {
         Window dragWindow = new JWindow() {
             public void paint(Graphics g) {
                 super.paint(g);
-                DraggableLabel.this.paint(g);
+                DraggableMapNode.this.paint(g);
             }
         };
         public void mouseDragged(MouseEvent e) {
@@ -64,18 +78,18 @@ public class DraggableLabel extends JSplitPane {
             p.x -= xDiff;
             p.y -= yDiff;
 
-            SwingUtilities.convertPointFromScreen(p, DraggableLabel.this.getParent());
+            SwingUtilities.convertPointFromScreen(p, DraggableMapNode.this.getParent());
             if (p.x <= 0) {
                 p.x = 1;
             }
-            if (p.x > DraggableLabel.this.getParent().getWidth() - b.width) {
-                p.x = DraggableLabel.this.getParent().getWidth() - b.width;
+            if (p.x > DraggableMapNode.this.getParent().getWidth() - b.width) {
+                p.x = DraggableMapNode.this.getParent().getWidth() - b.width;
             }
             if (p.y <= 0) {
                 p.y = 1;
             }
-            if (p.y > DraggableLabel.this.getParent().getHeight() - b.height) {
-                p.y = DraggableLabel.this.getParent().getHeight() - b.height;
+            if (p.y > DraggableMapNode.this.getParent().getHeight() - b.height) {
+                p.y = DraggableMapNode.this.getParent().getHeight() - b.height;
             }
             setLocation(p);
             getParent().repaint();

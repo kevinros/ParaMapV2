@@ -1,18 +1,30 @@
 package Application;
 
+import Box_Tools.Box;
+import Box_Tools.ParaMap;
+import Factory.MapBuilder;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
 import javax.swing.*;
 
 import javax.swing.border.EtchedBorder;
 
 public class ParaMapsApplication extends JFrame {
-    Canvas c = new Canvas();
+    ConnectorContainer cc;
     ConnectorPropertiesPanel props;
+    JTextArea textArea;
     JScrollPane scrollTextArea;
+    JButton generateButton;
+    String userInput;
+    MapBuilder mapBuilder;
+    ParaMap map;
 
-    public ParaMapsApplication() {
+    public ParaMapsApplication() throws Exception {
         super("ParaMaps");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setLayout(new GridBagLayout());
@@ -20,31 +32,29 @@ public class ParaMapsApplication extends JFrame {
 
         getContentPane().add(new JLabel("Connectors example. You can drag the connected component to see how the line will be changed"),
                 new GridBagConstraints(0, 0, 2, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 5), 0, 0));
-        getContentPane().add(initConnectors(),
+        //getContentPane().add(initConnectors(),
+                //new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
+        getContentPane().add(cc,
                 new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
         getContentPane().add(props,
                 new GridBagConstraints(1, 1, 1, 1, 0, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.VERTICAL, new Insets(5, 0, 5, 5), 0, 0));
         getContentPane().add(scrollTextArea,
                 new GridBagConstraints(0, 2, 3, 1, 0, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 40));
-
+        getContentPane().add(generateButton,
+                new GridBagConstraints(1, 3, 1, 1, 0, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
         setSize(800, 800);
         setLocationRelativeTo(null);
     }
 
-    protected void init() {
-        ConnectLine[] lines = new ConnectLine[5];
-        lines[0] = new ConnectLine(new Point(200, 10), new Point(50, 300), ConnectLine.LINE_TYPE_SIMPLE, ConnectLine.LINE_START_HORIZONTAL, ConnectLine.LINE_ARROW_BOTH);
-        lines[1] = new ConnectLine(new Point(200, 10), new Point(200, 150), ConnectLine.LINE_TYPE_SIMPLE, ConnectLine.LINE_START_HORIZONTAL, ConnectLine.LINE_ARROW_BOTH);
-        lines[2] = new ConnectLine(new Point(50, 150), new Point(100, 100), ConnectLine.LINE_TYPE_SIMPLE, ConnectLine.LINE_START_HORIZONTAL, ConnectLine.LINE_ARROW_BOTH);
-        lines[3] = new ConnectLine(new Point(150, 120), new Point(60, 70), ConnectLine.LINE_TYPE_SIMPLE, ConnectLine.LINE_START_HORIZONTAL, ConnectLine.LINE_ARROW_BOTH);
-
-        c.setLines(lines, Color.blue);
+    protected void init() throws Exception {
 
         initTextArea();
+        initGenerateButton();
+        initDefaultState();
     }
 
     protected void initTextArea() {
-        JTextArea textArea = new JTextArea("Enter input here");
+        textArea = new JTextArea("Enter input here");
         textArea.setSize(800, 200);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
@@ -68,72 +78,93 @@ public class ParaMapsApplication extends JFrame {
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     }
 
-    protected ConnectorContainer initConnectors() {
-        JConnector[] connectors = new JConnector[2];
+    protected void initGenerateButton() throws Exception {
+        generateButton = new JButton("Generate");
+        generateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    userInput = textArea.getText();
+                    mapBuilder = new MapBuilder(userInput);
+                    map = mapBuilder.buildMap();
+                    generateMap();
+                } catch (Exception exception) {
+                    System.out.println(exception.getMessage());
+                }
+            }
+        });
 
-        JPanel head1 = new JPanel();
-        head1.add(new JLabel("Saturn"));
-        JPanel body1 = new JPanel();
-        DefaultListModel<String> l1 = new DefaultListModel<>();
-        l1.addElement("is a planet");
-        l1.addElement("is large");
-        JList<String> bodyList = new JList<>(l1);
-        body1.add(bodyList);
-        JSplitPane splitPane = new DraggableLabel(JSplitPane.VERTICAL_SPLIT, head1, body1);
-        splitPane.setBounds(10, 10, 200, 150);
-
-        JPanel head2 = new JPanel();
-        head2.add(new JLabel("Planet"));
-        JPanel body2 = new JPanel();
-        DefaultListModel<String> l2 = new DefaultListModel<>();
-        l2.addElement("is round");
-        l2.addElement("may have rings");
-        JList<String> bodyList2 = new JList<>(l2);
-        body2.add(bodyList2);
-        JSplitPane splitPane2 = new DraggableLabel(JSplitPane.VERTICAL_SPLIT, head2, body2);
-        splitPane2.setBounds(300, 300, 200, 150);
-
-        connectors[0] = new JConnector(splitPane, splitPane2, ConnectLine.LINE_ARROW_DEST, JConnector.CONNECT_LINE_TYPE_RECTANGULAR, Color.red);
-        props = new ConnectorPropertiesPanel(connectors[0]);
-
-        ConnectorContainer cc = new ConnectorContainer(connectors);
-        cc.setLayout(null);
-
-        cc.add(splitPane);
-        cc.add(splitPane2);
-
-        cc.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
-        return cc;
     }
 
-    public static void main(String[] args) {
+    protected void initDefaultState() {
+        ArrayList<JConnector> connectors = new ArrayList<>();
+
+        props = new ConnectorPropertiesPanel(connectors);
+
+        this.cc = new ConnectorContainer(connectors);
+        this.cc.setLayout(null);
+        this.cc.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+
+    }
+
+    protected void generateMap() {
+        // Remove the container first instead of pasting a new one on top of it
+        getContentPane().remove(cc);
+
+        // remove contents of map first
+        cc.removeAll();
+        cc.updateUI();
+
+        ArrayList<JConnector> connectors = new ArrayList<>();
+        ArrayList<DraggableMapNode> mapNodes = new ArrayList<>();
+
+        for (Box box : map.getMap()) {
+            JPanel head = createHead(box);
+            JPanel body = createBody(box);
+
+            DraggableMapNode mapNode = new DraggableMapNode(head, body);
+            mapNodes.add(mapNode);
+        }
+
+        props = new ConnectorPropertiesPanel(connectors);
+
+        this.cc = new ConnectorContainer(connectors);
+        this.cc.setLayout(null);
+        this.cc.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+
+        for (DraggableMapNode mapNode : mapNodes) {
+            this.cc.add(mapNode);
+        }
+
+        getContentPane().add(cc,
+                new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
+
+        cc.updateUI();
+    }
+
+    private JPanel createHead(Box box) {
+        JPanel panel = new JPanel();
+        panel.add(new JLabel(box.getHead()));
+        return panel;
+    }
+
+    private JPanel createBody(Box box) {
+        JPanel panel = new JPanel();
+        DefaultListModel<String> list = new DefaultListModel<>();
+        for (String sentence : box.getBody()) {
+            list.addElement(sentence);
+        }
+
+        panel.add(new JList<>(list));
+        return panel;
+    }
+
+    public static void main(String[] args) throws Exception {
         ParaMapsApplication pm = new ParaMapsApplication();
         pm.setVisible(true);
     }
 
-    //temp class to test lines drawing
-    protected static class Canvas extends JPanel {
-        ConnectLine[] lines;
-        Color color;
-        public void setLines(ConnectLine[] lines, Color color) {
-            this.lines = lines;
-            this.color = color;
-        }
 
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.setColor(Color.white);
-            g.fillRect(0, 0, getWidth(), getHeight());
-            g.setColor(Color.black);
-            g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 
-            g.setColor(color);
-            for (int i = 0; i < lines.length; i++) {
-                if (lines[i] != null) {
-                    lines[i].paint( (Graphics2D) g);
-                }
-            }
-        }
-    }
 }
 
