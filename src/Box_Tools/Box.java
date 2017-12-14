@@ -28,6 +28,10 @@ public class Box {
         return this.boxBody.getBody();
     }
 
+    public ArrayList<Box> getBoxConnections() {
+        return this.boxConnections;
+    }
+
     public void setHead(String head) {
         this.boxHead.setHead(head);
     }
@@ -46,6 +50,10 @@ public class Box {
 
     public void removeAllElementsFromBody() {
         this.boxBody.removeAllDescriptionsFromBody();
+    }
+
+    public void addBoxConnection(Box box) {
+        this.boxConnections.add(box);
     }
 
     public void clearBox() {
