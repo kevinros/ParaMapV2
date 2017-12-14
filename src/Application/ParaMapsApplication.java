@@ -30,10 +30,8 @@ public class ParaMapsApplication extends JFrame {
         getContentPane().setLayout(new GridBagLayout());
         init();
 
-        getContentPane().add(new JLabel("Connectors example. You can drag the connected component to see how the line will be changed"),
+        getContentPane().add(new JLabel("Type in sentences and press Generate to create a ParaMap."),
                 new GridBagConstraints(0, 0, 2, 1, 1, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 5), 0, 0));
-        //getContentPane().add(initConnectors(),
-                //new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
         getContentPane().add(cc,
                 new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
         getContentPane().add(props,
@@ -42,7 +40,7 @@ public class ParaMapsApplication extends JFrame {
                 new GridBagConstraints(0, 2, 3, 1, 0, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 40));
         getContentPane().add(generateButton,
                 new GridBagConstraints(1, 3, 1, 1, 0, 0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
-        setSize(800, 800);
+        setSize(1200, 800);
         setLocationRelativeTo(null);
     }
 
@@ -115,15 +113,49 @@ public class ParaMapsApplication extends JFrame {
         cc.removeAll();
         cc.updateUI();
 
+        // connectors will keep track of all the connections/lines
         ArrayList<JConnector> connectors = new ArrayList<>();
+
+        // mapNodes and mapNodeHeads are directly related; that is, the index of mapNodes corresponds to
+        //   the index of mapNodeHeads. This is how we will reference and check if mapNodes already exist.
+        //   Example: the head that mapNodeHeads.get(1) references is the same as mapNodes.get(1)'s head.
         ArrayList<DraggableMapNode> mapNodes = new ArrayList<>();
+        ArrayList<String> mapNodeHeads = new ArrayList<>();
 
         for (Box box : map.getMap()) {
-            JPanel head = createHead(box);
-            JPanel body = createBody(box);
 
-            DraggableMapNode mapNode = new DraggableMapNode(head, body);
-            mapNodes.add(mapNode);
+            DraggableMapNode newMapNode = null;
+
+            // if we have not created the map node for the given box yet, create it, add it to the
+            //   node list, and add its head to the head list.
+            if (!(mapNodeHeads.contains(box.getHead()))) {
+                newMapNode = createMapNode(box);
+                mapNodes.add(newMapNode);
+                mapNodeHeads.add(box.getHead());
+            }
+            // else the map node already exists and we just need to reference it via the head list index.
+            else {
+                int headIndex = mapNodeHeads.indexOf(box.getHead());
+                newMapNode = mapNodes.get(headIndex);
+            }
+
+            for (Box connectedBox : box.getBoxConnections()) {
+
+                // if we have not created a map node for the connected box, we'll create it first
+                //   then set the link
+                if (!(mapNodeHeads.contains(connectedBox.getHead()))) {
+                    DraggableMapNode newMapNode2 = createMapNode(connectedBox);
+                    mapNodes.add(newMapNode2);
+                    mapNodeHeads.add(connectedBox.getHead());
+                    connectors.add(new JConnector(newMapNode, newMapNode2, ConnectLine.LINE_ARROW_DEST, JConnector.CONNECT_LINE_TYPE_RECTANGULAR, Color.red));
+                }
+                // else the map node already exists
+                else {
+                    int headIndex = mapNodeHeads.indexOf(connectedBox.getHead());
+                    DraggableMapNode existingMapNode = mapNodes.get(headIndex);
+                    connectors.add(new JConnector(newMapNode, existingMapNode, ConnectLine.LINE_ARROW_DEST, JConnector.CONNECT_LINE_TYPE_RECTANGULAR, Color.red));
+                }
+            }
         }
 
         props = new ConnectorPropertiesPanel(connectors);
@@ -140,6 +172,14 @@ public class ParaMapsApplication extends JFrame {
                 new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
 
         cc.updateUI();
+    }
+
+    protected DraggableMapNode createMapNode(Box box) {
+        JPanel head = createHead(box);
+        JPanel body = createBody(box);
+
+        DraggableMapNode mapNode = new DraggableMapNode(head, body);
+        return mapNode;
     }
 
     private JPanel createHead(Box box) {
@@ -161,6 +201,8 @@ public class ParaMapsApplication extends JFrame {
 
     public static void main(String[] args) throws Exception {
         ParaMapsApplication pm = new ParaMapsApplication();
+        // The Application only works with this string right now (copy + paste + generate):
+        // Jason is a man. He is 17 years old. Mary is a girl. She is 8 years old. Mary enjoys going to the mall. Jason is a student. He likes school. Jason is friends with Mary. Ralph is 28 years old. He is friends with Jason.
         pm.setVisible(true);
     }
 

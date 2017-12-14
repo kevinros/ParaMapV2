@@ -14,8 +14,8 @@ public class DraggableMapNode extends JSplitPane {
     Point pressPoint;
     Point releasePoint;
     DragProcessor dragProcessor = new DragProcessor();
-
-
+    JPanel head;
+    JPanel body;
 
     public DraggableMapNode(JPanel head, JPanel body) {
         super(JSplitPane.VERTICAL_SPLIT, head, body);
@@ -23,6 +23,13 @@ public class DraggableMapNode extends JSplitPane {
         setBorder(new CompoundBorder(new EtchedBorder(EtchedBorder.LOWERED), new EmptyBorder(0, 5, 0, 5)));
         addMouseListener(dragProcessor);
         addMouseMotionListener(dragProcessor);
+        this.head = head;
+        this.body = body;
+    }
+
+    public String getHead() {
+        String head = ((JLabel) this.head.getComponent(0)).getText();
+        return head;
     }
 
     private int getRandomInteger(int lowerBound, int upperBound) {
@@ -95,4 +102,5 @@ public class DraggableMapNode extends JSplitPane {
             getParent().repaint();
         }
     }
+
 }
