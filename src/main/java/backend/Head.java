@@ -1,33 +1,52 @@
+/**
+ * main.java.backend contains head.
+ */
 package main.java.backend;
 
+/**
+ * Represents the subject of a sentence, held as a string.
+ */
 public class Head {
-    // The Head class holds a String variable that represents the subject of the sentence.
 
-    // Class Variables
+    /**
+     * The head of the box.
+     */
     private String head;
 
-    // Head() is a constructor that takes no arguments; instantiates the head variable as
-    //  an empty string.
+    /**
+     * Creates head that is an empty string.
+     */
     protected Head() {
         this.head = "";
     }
 
-    // Head(String) is a constructor that takes in a String and instantiates the head variable as
-    //  the value of that string.
-    protected Head(String head) {
-        this.head = capitalizeHead(head);
-    }
+    /**
+     * Creates head that is capitalized.
+     * @param  head
+     */
+    protected Head(String head) { this.head = capitalizeHead(head); }
 
-    // getHead() returns the value of the head variable.
+    /**
+     * @return the current head
+     */
     protected String getHead() {
         return this.head;
     }
 
-    // setHead(String) sets the current head variable to the value of the given String.
+
+    /**
+     * Sets head to value of string
+     * @param head
+     */
     protected void setHead(String head) {
         this.head = capitalizeHead(head);
     }
 
+    /**
+     * Capitalizes first letter of head
+     * @param head
+     * @return head with capital string
+     */
     protected String capitalizeHead(String head) {
         String result = head.substring(0, 1).toUpperCase() + head.substring(1);
         return result;
