@@ -20,6 +20,12 @@ Planets are large. Mike has a day job. Tomorrow is Friday" will yield the best r
 # This project would not have been possible without...
 
 ApacheOpenNLP:https://opennlp.apache.org/
+
+
+
 TutorialPoint: https://www.tutorialspoint.com/opennlp/
+
+
+
 The author of http://java-sl.com/about_author.html (GUI), Stanislav Lapitsky
 
