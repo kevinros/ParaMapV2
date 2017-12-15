@@ -1,4 +1,6 @@
 package main.java.backend;
+import com.sun.javafx.binding.StringFormatter;
+
 import java.util.ArrayList;
 
 /**
@@ -127,6 +129,28 @@ public class Box {
     public void printBoxContents() {
         System.out.printf("Head: %s\n", this.getHead());
         this.boxBody.printBody();
+    }
+
+    public boolean equals(Box box) {
+        if (!this.boxHead.equals(box.getHead())) {
+            return false;
+        }
+
+        if (!this.boxBody.getBody().equals(box.getBody())) {
+            return false;
+        }
+
+        if (!this.boxConnections.equals(box.getBoxConnections())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public String toString() {
+        String string = "";
+        string = "Head: " + this.boxHead + "\n" + "Body : " + this.boxBody.getBody().toString();
+        return string;
     }
 
 }

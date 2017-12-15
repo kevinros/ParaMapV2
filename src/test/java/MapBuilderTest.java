@@ -1,9 +1,10 @@
 package test.java;
+
 import main.java.backend.Box;
 import main.java.backend.BoxBuilder;
 import main.java.backend.MapBuilder;
 import main.java.backend.ParaMap;
-import org.junit.test;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +14,7 @@ import static org.junit.Assert.*;
 public class MapBuilderTest {
     @Test
     public void buildMap() throws Exception {
-        String input = "Saturn is a planet. Jupiter is a planet. Planets are large. Planets are round.";
+        String input = "Saturn is a planet. Planets are round.";
         MapBuilder test = new MapBuilder(input);
         ParaMap map = test.buildMap();
         ArrayList<Box> boxes = map.getMap();
@@ -28,24 +29,18 @@ public class MapBuilderTest {
         saturnList.add("is a planet");
         Box saturn = tester.buildBox("Saturn", saturnList);
 
-        ArrayList<String> jupiterList = new ArrayList<>();
-        jupiterList.add("is a planet");
-        Box jupiter = tester.buildBox("Jupiter", jupiterList);
-
         ArrayList<String> planetList = new ArrayList<>();
-        planetList.add("are large");
         planetList.add("are round");
         Box planet = tester.buildBox("Planet", planetList);
 
         saturn.addBoxConnection(planet);
-        jupiter.addBoxConnection(planet);
 
         ArrayList<Box> testBoxes = new ArrayList<>();
         testBoxes.add(saturn);
-        testBoxes.add(jupiter);
         testBoxes.add(planet);
 
-        assertEquals(boxes.containsAll(testBoxes));
+        assertEquals(true, saturn.getHead().equals(boxes.get(0).getHead()));
+        assertEquals(true, planet.getHead().equals(boxes.get(1).getHead()));
 
 
 
