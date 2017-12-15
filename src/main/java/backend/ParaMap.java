@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class ParaMap {
     /**
      * Has a variable "boxes" Which houses an ArrayList
-     * containing boxes.
+     * containing boxes. Can add boxes to boxes and can print
+     * the contents of boxes.
      */
     private ArrayList<Box> boxes;
 
