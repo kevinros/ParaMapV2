@@ -147,27 +147,21 @@ public class SubPredSeparator{
             this.subPreds.put(head, concatenatedBody);
         }
 
-        splitPredsByConjunctions();
+        //splitPredsByConjunctions();
     }
 
     private void splitPredsByConjunctions() {
-        String[] conjunctions = {"\\band\\b", "\\bbut\\b", "\\byet\\b"};
         for (String head : this.subPreds.keySet()) {
-            ArrayList<String> splitBodyElements = new ArrayList<>();
-            for (int i = 0; i < conjunctions.length; i++) {
-                for (String sentence : this.subPreds.get(head)) {
-                    String[] splitSentences = sentence.split(conjunctions[i]);
-                    if (splitSentences.length > 1) {
-                        splitBodyElements.addAll(Arrays.asList(splitSentences));
-                        this.subPreds.get(head).remove(sentence);
-                    }
+            ArrayList<String> splitBodyElements = this.subPreds.get(head);
+            for (String sentence : this.subPreds.get(head)) {
+                String[] splitSentences = sentence.split("\\band\\b");
+                if (splitSentences.length > 1) {
+                    splitBodyElements.addAll(Arrays.asList(splitSentences));
+                    splitBodyElements.remove(sentence);
                 }
-
             }
 
-            if (!splitBodyElements.isEmpty()) {
-                this.subPreds.put(head, splitBodyElements);
-            }
+            //this.subPreds.put(head, splitBodyElements);
         }
 
     }
@@ -189,12 +183,11 @@ public class SubPredSeparator{
 
 
     public static void main(String[] args) throws Exception {
-        SubPredSeparator test = new SubPredSeparator();
-        ArrayList<String> testSentences = new ArrayList<>(Arrays.asList("A class is horrible", " A Planet is huge",
-                "Saturn is next to Uranus", "Planets may explode", "Classes suck"));
-
-        test.createMap(testSentences);
-        test.printMap();
+        String sentence = "is blue and is round.";
+        String[] splitSentences = sentence.split("\\band\\b");
+        for (int i = 0; i < splitSentences.length; i++) {
+            System.out.println(splitSentences[i].trim());
+        }
     }
 
 }
