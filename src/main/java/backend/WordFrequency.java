@@ -49,10 +49,11 @@ public class WordFrequency implements FreqBuilder{
         this.tokens = this.wsTokenizer.getTokens();
 
         for (int i = 0; i < this.tokens.size(); i++) {
-            if (!this.frequencyMap.containsKey(this.tokens.get(i).toLowerCase())) {
-                this.frequencyMap.put(this.tokens.get(i).toLowerCase(), 1);
+            if (!this.frequencyMap.containsKey(this.tokens.get(i).toLowerCase().replaceAll("\\s*\\p{Punct}+\\s*$", ""))) {
+                this.frequencyMap.put(this.tokens.get(i).toLowerCase().replaceAll("\\s*\\p{Punct}+\\s*$", ""), 1);
             } else {
-                this.frequencyMap.put(this.tokens.get(i).toLowerCase(), this.frequencyMap.get(this.tokens.get(i).toLowerCase())+1);
+                this.frequencyMap.put(this.tokens.get(i).toLowerCase().replaceAll("\\s*\\p{Punct}+\\s*$", ""),
+                        this.frequencyMap.get(this.tokens.get(i).toLowerCase().replaceAll("\\s*\\p{Punct}+\\s*$", ""))+1);
             }
         }
 
