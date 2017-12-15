@@ -6,10 +6,6 @@ import java.awt.*;
 /**
  * The class represents pair of components with a connecting line.
  *
- * <p>Copyright: Copyright (c) 2007</p>
- *
- * @author Stanislav Lapitsky
- * @version 1.0
  */
 public class JConnector extends JPanel {
     public static final int CONNECT_LINE_TYPE_SIMPLE = 0;
