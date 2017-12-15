@@ -20,12 +20,8 @@ public class TextSimplifier {
     private void frequencyMap() throws Exception {
         WhiteSpaceTokenizer wst = new WhiteSpaceTokenizer();
         WordFrequency wf = new WordFrequency();
-        ArrayList<String> tokens;
 
-        wst.tokenize(this.input);
-        tokens = wst.getTokens();
-
-        this.wordFrequencyMap = wf.buildFrequencyMap(tokens);
+        this.wordFrequencyMap = wf.buildFrequencyMap(this.input);
     }
 
     public HashMap<String, Integer> getWordFrequencyMap() throws Exception {
@@ -100,6 +96,8 @@ public class TextSimplifier {
                 if (this.tokenizedTaggedSentences.get(i).get(j).contains("_PRP")) {
                     this.tokenizedTaggedSentences.get(i).set(j, subjects.get(i-1));
                     subjects.set(i, subjects.get(i-1));
+                    // we just need to change the pronoun in the beginning, break out of loop
+                    //break;
                 }
             }
         }

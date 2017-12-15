@@ -1,6 +1,5 @@
 package main.java.frontend;
 
-
 import main.java.backend.*;
 import main.java.backend.Box;
 
@@ -10,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.*;
 
 import javax.swing.border.EtchedBorder;
@@ -105,13 +105,18 @@ public class ParaMapsApplication extends JFrame {
 
     }
 
-    protected void generateMap() {
+    protected void generateMap() throws Exception {
         // Remove the container first instead of pasting a new one on top of it
         getContentPane().remove(cc);
+        getContentPane().remove(props);
 
         // remove contents of map first
         cc.removeAll();
         cc.updateUI();
+
+        // remove contents of the property pane
+        props.removeAll();
+        props.updateUI();
 
         // connectors will keep track of all the connections/lines
         ArrayList<JConnector> connectors = new ArrayList<>();
@@ -158,10 +163,12 @@ public class ParaMapsApplication extends JFrame {
             }
         }
 
-        props = new ConnectorPropertiesPanel(connectors);
+        JList<String> wordFrequencyList = createWordFrequencyList();
+        JList<String> pOSFrequencyList = createPOSFrequencyList();
+
+        props = new ConnectorPropertiesPanel(connectors, pOSFrequencyList, wordFrequencyList);
 
         this.cc = new ConnectorContainer(connectors);
-        this.cc.setLayout(null);
         this.cc.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 
         for (DraggableMapNode mapNode : mapNodes) {
@@ -170,8 +177,11 @@ public class ParaMapsApplication extends JFrame {
 
         getContentPane().add(cc,
                 new GridBagConstraints(0, 1, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(5, 5, 5, 5), 0, 0));
+        getContentPane().add(props,
+                new GridBagConstraints(1, 1, 1, 1, 0, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.VERTICAL, new Insets(5, 0, 5, 5), 0, 0));
 
         cc.updateUI();
+        props.updateUI();
     }
 
     protected DraggableMapNode createMapNode(Box box) {
@@ -197,6 +207,42 @@ public class ParaMapsApplication extends JFrame {
 
         panel.add(new JList<>(list));
         return panel;
+    }
+
+    private JList<String> createPOSFrequencyList() throws Exception {
+        PoSFrequency posFrequencyBuilder = new PoSFrequency();
+        DefaultListModel<String> posList = new DefaultListModel<>();
+        JList<String> jList;
+
+        HashMap<String, Integer> posHashMap = posFrequencyBuilder.buildFrequencyMap(this.userInput);
+
+        for (String key : posHashMap.keySet()) {
+            if (posHashMap.get(key) != 0) {
+                String frequencyString = "";
+                frequencyString = key + " : " + posHashMap.get(key);
+                posList.addElement(frequencyString);
+            }
+        }
+
+        jList = new JList<>(posList);
+        return jList;
+    }
+
+    private JList<String> createWordFrequencyList() throws Exception {
+        WordFrequency wordFrequencyBuilder = new WordFrequency();
+        DefaultListModel<String> wordList = new DefaultListModel<>();
+        JList<String> jList;
+
+        HashMap<String, Integer> posHashMap = wordFrequencyBuilder.buildFrequencyMap(this.userInput);
+
+        for (String key : posHashMap.keySet()) {
+            String frequencyString = "";
+            frequencyString = key + " : " + posHashMap.get(key);
+            wordList.addElement(frequencyString);
+        }
+
+        jList = new JList<>(wordList);
+        return jList;
     }
 
     public static void main(String[] args) throws Exception {

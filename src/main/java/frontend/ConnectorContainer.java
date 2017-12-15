@@ -1,4 +1,5 @@
 package main.java.frontend;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,7 +16,10 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class ConnectorContainer extends JPanel {
+//public class ConnectorContainer extends JScrollPane {
+
     ArrayList<JConnector> connectors;
+
     public ConnectorContainer() {
     }
 
@@ -42,3 +46,4 @@ public class ConnectorContainer extends JPanel {
         }
     }
 }
+

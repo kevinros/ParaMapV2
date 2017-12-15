@@ -53,3 +53,4 @@ public class SentenceTokenizer implements Tokenizer {
     public ArrayList<String> getTokens() {
         return this.sentences;
     }
+}

@@ -11,10 +11,10 @@ public interface FreqBuilder {
     /**
      * Makes hashmap between Strings and Integers
      * to count frequency of something. 
-     * @param tokens tokenized sentence.
+     * @param stringInput string of sentences.
      * @return HashMap of string to int.
      */
-    public HashMap<String, Integer> buildFrequencyMap(ArrayList<String> tokens);
+    public HashMap<String, Integer> buildFrequencyMap(String stringInput);
 
     /**
      * Prints the hashmap of strings to integers.

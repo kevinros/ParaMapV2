@@ -1,8 +1,6 @@
 package main.java.backend;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 public class SubPredSeparator{
     //Class Variables
@@ -89,7 +87,7 @@ public class SubPredSeparator{
         ArrayList<String> newbie = new ArrayList<>(this.body);
         if (this.tokenizedSubPreds.containsKey(head))
             if(this.tokenizedSubPreds.get(head).contains(newbie)){
-            return;
+                return;
             }
             else {
                 this.tokenizedSubPreds.get(head).add(newbie);
@@ -148,6 +146,34 @@ public class SubPredSeparator{
             }
             this.subPreds.put(head, concatenatedBody);
         }
+
+        splitPredsByConjunctions();
+    }
+
+    private void splitPredsByConjunctions() {
+        String[] conjunctions = {"\\band\\b", "\\bbut\\b", "\\byet\\b"};
+        for (String head : this.subPreds.keySet()) {
+            ArrayList<String> newBodyElements = new ArrayList<>();
+            for (String bodyElement : this.subPreds.get(head)) {
+                String[] tokens = null;
+                for (int i = 0; i < conjunctions.length; i++) {
+                    tokens = bodyElement.split(conjunctions[i]);
+                    if (tokens.length > 1) {
+                        for (int j = 0; j < tokens.length; j++) {
+                            String newElement = tokens[j].trim();
+                            newBodyElements.add(newElement);
+                        }
+                    }
+                }
+            }
+            if (newBodyElements.size() == 0) {
+                newBodyElements.add(this.subPreds.get(head).get(0));
+            }
+            // Remove all duplicates in the body list
+            this.subPreds.put(head, newBodyElements);
+        }
+
+
     }
 
     public void printMap(){
@@ -173,8 +199,8 @@ public class SubPredSeparator{
 
         test.createMap(testSentences);
         test.printMap();
-        }
-
     }
+
+}
 
 

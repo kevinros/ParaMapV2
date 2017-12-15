@@ -1,5 +1,6 @@
 package main.java.backend;
 
+import main.java.frontend.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,17 +36,17 @@ public class MapBuilder {
     private void buildBoxForAllSubjects(HashMap<String, ArrayList<String>> subPreds) {
         BoxBuilder boxBuilder = new BoxBuilder();
         // all the jason things are for testing purposes
-        Box jasonBox = null;
+        //Box jasonBox = null;
         for (String head : subPreds.keySet()) {
             Box box = boxBuilder.buildBox(head, subPreds.get(head));
-            if (box.getHead().equals("Jason")) {
-                jasonBox = box;
-            }
+            //if (box.getHead().equals("Jason")) {
+            //  jasonBox = box;
+            //}
             this.map.addBox(box);
         }
 
-        jasonBox.addBoxConnection(this.map.getMap().get(0)); // Ralph
-        jasonBox.addBoxConnection(this.map.getMap().get(2)); // Mary
+        //jasonBox.addBoxConnection(this.map.getMap().get(0)); // Ralph
+        //jasonBox.addBoxConnection(this.map.getMap().get(2)); // Mary
 
 
     }
