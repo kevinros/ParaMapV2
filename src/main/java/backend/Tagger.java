@@ -8,8 +8,11 @@ import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSSample;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.tokenize.WhitespaceTokenizer;
-//The following is based on OpenNLP online tutorial
-// for tagging parts of speech
+
+/**
+ * This class tags a given sentence
+ */
+
 public class Tagger {
 
     private POSModel model;
@@ -58,6 +61,10 @@ public class Tagger {
     public String getSentenceWithTags(){
         return this.SentenceWithTags;
     }
+
+    /**
+     * Clears the Tagger class to allow class reusability
+     */
     public void clear() {
         this.JustTags.clear();
         this.JustSentence.clear();
