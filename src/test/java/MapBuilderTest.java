@@ -1,4 +1,3 @@
-package main.java.backend;
 
 import org.junit.Test;
 
