@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class PoSFrequency implements FreqBuilder {
-
+    /**
+     * Builds a HashMap out of the frequencies of parts of speech appearing
+     * in the input String.
+     */
     /**
      * Initializes the Class variables Tags(an ArrayList of Strings), pOSFreqMap(an HashMap with a String key and an integer value),
      * and frequency (and Int)
