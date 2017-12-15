@@ -1,52 +1,74 @@
 package main.java.backend;
 import java.util.ArrayList;
 
+/**
+ * Body holds an ArrayList of strings,
+ * where the strings represent predicates/descriptions.
+ */
 public class Body {
-    // The Body class holds an ArrayList of Strings that represent the predicates/descriptions
-    //  of a particular subject.
 
-    // Class Variables
+    /**
+     *  The body of a box.
+     */
     private ArrayList<String> body;
 
-    // Body() is a constructor that takes in no arguments and instantiates the body variable as
-    //  an empty ArrayList<String>.
+    /**
+     * Creates a body initialized to empty.
+     */
     protected Body() {
         this.body = new ArrayList<>();
     }
 
-    // Body(ArrayList<String>) takes in an ArrayList<String> and instantiates the body variable as
-    //  the value of that list.
+    /**
+     * Creates a body from the given descriptions.
+     * @param descriptions the descriptions to be added.
+     */
     protected Body(ArrayList<String> descriptions) {
         this.body = descriptions;
     }
 
-    // addDescriptionToBody(String) adds a String to the body variable.
+    /**
+     * Add a description to a body
+     * @param description the description to be added
+     */
     protected void addDescriptionToBody(String description) {
         this.body.add(description);
     }
 
-    // addManyDescriptionsToBody(ArrayList<String>) adds a collection of descriptions to the body
-    //  variable
+    /**
+     * Add collection of descriptions to body.
+     * @param descriptions added to body.
+     */
     protected void addManyDescriptionsToBody(ArrayList<String> descriptions) {
         this.body.addAll(descriptions);
     }
 
-    // getbody() returns the body variable.
+    /**
+     * Gets body variable.
+     * @return body ArrayList<String>.
+     */
     protected ArrayList<String> getBody() {
         return this.body;
     }
 
-    // removeDescriptionFromBody(String) removes the String from the body variable.
+    /**
+     * Removes description from body.
+     * @param body where description is removed.
+     */
     protected void removeDescriptionFromBody(String body) {
         this.body.remove(body);
     }
 
-    // removeAllDescriptionsFromBody() essentially clears the body variable.
+    /**
+     * Clears body (removes all descriptions).
+     */
     protected void removeAllDescriptionsFromBody() {
         this.body.clear();
     }
 
-    // printBody() outputs the contents of the body variable.
+    /**
+     * Prints the descriptions of a body. 
+     */
     protected void printBody() {
         System.out.println("Body: ");
 
