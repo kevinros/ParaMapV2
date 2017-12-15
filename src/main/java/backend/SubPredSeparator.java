@@ -2,6 +2,9 @@ package main.java.backend;
 
 import java.util.*;
 
+/*
+This class separates a list of sentences into their subjects and objects. It combines sentences with matching subjects
+ */
 public class SubPredSeparator{
     //Class Variables
     private HashMap<String, ArrayList<ArrayList<String>>> tokenizedSubPreds;
@@ -124,15 +127,7 @@ public class SubPredSeparator{
         return singular;
 
     }
-
-    public HashMap<String, ArrayList<ArrayList<String>>> getTokenizedSubPreds() {
-        return this.tokenizedSubPreds;
-    }
-
-    public HashMap<String, ArrayList<String>> getSubPreds() {
-        return this.subPreds;
-    }
-
+    //Concatenates the tokenized body of a sentence
     private void createSubPreds() {
         String body = "";
         for(String head : this.tokenizedSubPreds.keySet()) {
@@ -150,6 +145,26 @@ public class SubPredSeparator{
         //splitPredsByConjunctions();
     }
 
+    /**
+     * Returns the map with tokenized bodies
+     * @return HashMap<>
+     */
+    public HashMap<String, ArrayList<ArrayList<String>>> getTokenizedSubPreds() {
+        return this.tokenizedSubPreds;
+    }
+
+    /**
+     * Returns the map with concatenated bodies
+     * @return HashMap<>
+     */
+    public HashMap<String, ArrayList<String>> getSubPreds() {
+        return this.subPreds;
+    }
+
+    /**
+     * Incomplete function that's supposed to split a string by conjuctions
+     */
+
     private void splitPredsByConjunctions() {
         for (String head : this.subPreds.keySet()) {
             ArrayList<String> splitBodyElements = this.subPreds.get(head);
@@ -166,6 +181,10 @@ public class SubPredSeparator{
 
     }
 
+    /**
+     * printMap prints the contents of a HashMap, displaying the objects each subject maps to
+     *
+     */
     public void printMap(){
         String body = "";
         for(String head : this.tokenizedSubPreds.keySet()) {
