@@ -3,21 +3,38 @@ package main.java.backend;
 import java.util.ArrayList;
 
 public class ParaMap {
-
+    /**
+     * Has a variable "boxes" Which houses an ArrayList
+     * containing boxes.
+     */
     private ArrayList<Box> boxes;
 
+    /**
+     * Initializes the variable box as an empty ArrayList
+     */
     public ParaMap() {
         this.boxes = new ArrayList<>();
     }
 
+    /**
+     * Inserts a box b into the ArrayList boxes
+     * @param b
+     */
     public void addBox(Box b) {
         this.boxes.add(b);
     }
 
+    /**
+     * Returns the ArrayList<Box> boxes
+     *
+     */
     public ArrayList<Box> getMap() {
         return this.boxes;
     }
 
+    /**
+     * Prints out all boxes contained in the ArrayList boxed
+     */
     public void printMap() {
         System.out.println("Printing out the contents of the map...");
         int i = 1;
