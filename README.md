@@ -17,9 +17,9 @@ Just download the JAR file and ...?
 For best results, try and keep the text simple. Sentences such as "Saturn is a planet.
 Planets are large. Mike has a day job. Tomorrow is Friday" will yield the best results. 
 
-#This project would not have been possible without...
+# This project would not have been possible without...
 
 ApacheOpenNLP:https://opennlp.apache.org/
 TutorialPoint: https://www.tutorialspoint.com/opennlp/
-The author of http://java-sl.com/about_author.html (GUI)
+The author of http://java-sl.com/about_author.html (GUI), Stanislav Lapitsky
 
