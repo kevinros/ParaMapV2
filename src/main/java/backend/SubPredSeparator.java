@@ -141,7 +141,7 @@ public class SubPredSeparator{
                 for(String s : bods) {
                     body += s + " ";
                 }
-                concatenatedBody.add(body.trim());
+                concatenatedBody.add(body.trim().replaceAll("\\s*\\p{Punct}+\\s*$", ""));
                 body = "";
             }
             this.subPreds.put(head, concatenatedBody);
