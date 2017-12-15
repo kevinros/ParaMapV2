@@ -9,6 +9,7 @@ public class MapBuilder {
 
     TextSimplifier textSimplifier;
     SubPredSeparator subPredSeparator;
+    BoxMerger boxMerger;
     ArrayList<String> simplifiedSentences;
     HashMap<String, ArrayList<String>> subPreds;
     String userInput;
@@ -19,6 +20,7 @@ public class MapBuilder {
         this.map = new ParaMap();
         this.textSimplifier = new TextSimplifier(userInput);
         this.subPredSeparator = new SubPredSeparator();
+        this.boxMerger = new BoxMerger();
     }
 
     public ParaMap buildMap() throws Exception {
@@ -27,8 +29,7 @@ public class MapBuilder {
         this.subPreds = subPredSeparator.getSubPreds();
 
         buildBoxForAllSubjects(this.subPreds);
-
-
+        this.boxMerger.mergeBox(this.map.getMap());
 
         return this.map;
     }

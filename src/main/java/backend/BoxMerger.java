@@ -21,7 +21,8 @@ public class BoxMerger {
                             for(String body : otherBoxBodies){
                                 if(body.toLowerCase().contains(comparedHead.toLowerCase())){
                                if(k!=i){
-                                    comparedBox.addBoxConnection(otherBox);
+                                    //comparedBox.addBoxConnection(otherBox);
+                                   otherBox.addBoxConnection(comparedBox);
                                }
 
                         }

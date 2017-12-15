@@ -153,26 +153,22 @@ public class SubPredSeparator{
     private void splitPredsByConjunctions() {
         String[] conjunctions = {"\\band\\b", "\\bbut\\b", "\\byet\\b"};
         for (String head : this.subPreds.keySet()) {
-            ArrayList<String> newBodyElements = new ArrayList<>();
-            for (String bodyElement : this.subPreds.get(head)) {
-                String[] tokens = null;
-                for (int i = 0; i < conjunctions.length; i++) {
-                    tokens = bodyElement.split(conjunctions[i]);
-                    if (tokens.length > 1) {
-                        for (int j = 0; j < tokens.length; j++) {
-                            String newElement = tokens[j].trim();
-                            newBodyElements.add(newElement);
-                        }
+            ArrayList<String> splitBodyElements = new ArrayList<>();
+            for (int i = 0; i < conjunctions.length; i++) {
+                for (String sentence : this.subPreds.get(head)) {
+                    String[] splitSentences = sentence.split(conjunctions[i]);
+                    if (splitSentences.length > 1) {
+                        splitBodyElements.addAll(Arrays.asList(splitSentences));
+                        this.subPreds.get(head).remove(sentence);
                     }
                 }
-            }
-            if (newBodyElements.size() == 0) {
-                newBodyElements.add(this.subPreds.get(head).get(0));
-            }
-            // Remove all duplicates in the body list
-            this.subPreds.put(head, newBodyElements);
-        }
 
+            }
+
+            if (!splitBodyElements.isEmpty()) {
+                this.subPreds.put(head, splitBodyElements);
+            }
+        }
 
     }
 
