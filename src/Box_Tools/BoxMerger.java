@@ -1,58 +1,50 @@
 package Box_Tools;
 
+import Factory.MapBuilder;
 import General_Tools.WhiteSpaceTokenizer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BoxMerger {
+    ArrayList<Box> boxes;
 
-    public static void mergeBox(ArrayList<Box> Boxes) throws Exception {
-        WhiteSpaceTokenizer wsTokenizer = new WhiteSpaceTokenizer();
-        int a;
-        int b;
-        int i;
-        int j;
-        for (a = 0; a < Boxes.size(); a++) {
-            Box firstBox = Boxes.get(a);
-            for (b = 0; b < (Boxes.size() - a); b++) {
-                Box secondBox = Boxes.get(b);
-                for (i = 0; i < secondBox.getBody().size(); i++) {
-                    ArrayList<String> secondBody = secondBox.getBody();
-                    wsTokenizer.tokenize(secondBody.get(i));
-                    wsTokenizer.removePunctuations();
-                    ArrayList<String> body = wsTokenizer.getTokens();
-                    for (j = 0; j < body.size(); j++) {
 
-                        if (firstBox.getHead().equals(body.get(j))) {
+    public BoxMerger() throws Exception{
+        this.boxes = new ArrayList<>();
+    }
 
-                            secondBox.getBody().remove(i);
-
-                        }
-
-                    }
-
-                }
-
-                for (i = 0; i < firstBox.getBody().size(); i++) {
-                    ArrayList<String> firstBody = firstBox.getBody();
-                    wsTokenizer.tokenize(firstBody.get(i));
-                    wsTokenizer.removePunctuations();
-                    ArrayList<String> body = wsTokenizer.getTokens();
-                    for (j = 0; j < body.size(); j++) {
-
-                        if (secondBox.getHead().equals(body.get(j))) {
-                            firstBox.getBody().remove(i);
+        public void mergeBox(ArrayList<Box> boxes){
+            int numOfBoxes = boxes.size();
+            for(int i = 0; i <numOfBoxes; i++){
+                Box comparedBox = boxes.get(i);
+                String comparedHead = comparedBox.getHead();
+                        for(int k = 0; k<numOfBoxes; k++){
+                            Box otherBox = boxes.get(k);
+                            ArrayList<String> otherBoxBodies = otherBox.getBody();
+                            for(String body : otherBoxBodies){
+                                if(body.toLowerCase().contains(comparedHead.toLowerCase())){
+                               if(k!=i){
+                                    comparedBox.addBoxConnection(otherBox);
+                               }
 
                         }
-
                     }
-
                 }
-
-
-
             }
         }
-        return;
+
+
+    public static void main(String[] args) throws Exception {
+        BoxMerger testMerger = new BoxMerger();
+        MapBuilder testMapper = new MapBuilder("Saturn is a planet. Planet is big. ");
+        ArrayList<Box> testboxes = new ArrayList<>(testMapper.buildMap().getMap());
+        testMerger.mergeBox(testboxes);
+        for (Box box : testboxes) {
+          box.printBoxContents();
+           for (Box box2 : box.getBoxConnections()) {
+               box2.printBoxContents();;
+          }
+        }
     }
 }
