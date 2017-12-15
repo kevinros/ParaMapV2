@@ -49,6 +49,10 @@ public class PoSFrequency implements FreqBuilder {
 
     }
 
+    /**
+     * This method makes every null frequency display 0 instead of null;
+     */
+
     protected void convertNullToZeroes() {
         for (String key : this.pOSFreqMap.keySet()) {
             if (this.pOSFreqMap.get(key) == null) {
