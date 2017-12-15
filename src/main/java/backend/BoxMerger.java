@@ -2,14 +2,19 @@ package main.java.backend;
 
 import java.util.ArrayList;
 
+/*
+This class' primary purpose is to link related boxes
+*/
 public class BoxMerger {
     ArrayList<Box> boxes;
 
-
+/*
+Constructor instantiates an arrayList of boxes when a BoxMerger object is created
+ */
     public BoxMerger() throws Exception{
         this.boxes = new ArrayList<>();
     }
-
+//This method takes in an ArrayList of boxes and looks for any part of a BoxBody that is also the Head of another box
         public void mergeBox(ArrayList<Box> boxes){
             int numOfBoxes = boxes.size();
             for(int i = 0; i <numOfBoxes; i++){
@@ -21,7 +26,6 @@ public class BoxMerger {
                             for(String body : otherBoxBodies){
                                 if(body.toLowerCase().contains(comparedHead.toLowerCase())){
                                if(k!=i){
-                                    //comparedBox.addBoxConnection(otherBox);
                                    otherBox.addBoxConnection(comparedBox);
                                }
 
