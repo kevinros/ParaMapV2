@@ -6,7 +6,11 @@ import java.util.List;
 
 public class PoSFrequency implements FreqBuilder {
 
-    //Class Variables
+    /**
+     * Initializes the Class variables Tags(an ArrayList of Strings), pOSFreqMap(an HashMap with a String key and an integer value),
+     * and frequency (and Int)
+     *
+     */
     private ArrayList<String> tags;
     private HashMap<String, Integer> pOSFreqMap;
     private int frequency;
@@ -15,7 +19,9 @@ public class PoSFrequency implements FreqBuilder {
         this.pOSFreqMap = new HashMap<String, Integer>();
     }
 
-    //This takes in an ArrayList of tokens, tags them, and computes frequency of tags.
+    /**
+     * This takes in an ArrayList of tokens, tags them, and computes frequency of tags.
+     */
     @Override
     public HashMap<String, Integer> buildFrequencyMap(ArrayList<String> tokens) {
         //Parameter 'tokens' is an ArrayList of 'Tags' which you can get by calling tagger.getTags()!
@@ -32,7 +38,10 @@ public class PoSFrequency implements FreqBuilder {
         return this.pOSFreqMap;
 
     }
-    //This prints all POSs and their frequencies
+
+    /**
+     * This prints all POSs and their frequencies
+     */
     @Override
     public void printFrequencyMap() {
         for(String POS : this.pOSFreqMap.keySet()){
@@ -40,7 +49,9 @@ public class PoSFrequency implements FreqBuilder {
         System.out.println("Frequency of "+ POS + " is: " + this.frequency);
         }
 }
-    //This prints the frequency of just one specified POS
+    /**
+     * This prints the frequency of just one specified POS
+     */
     public void getFrequency(String POS) {
         if(this.pOSFreqMap.containsKey(POS)){
             this.frequency = this.pOSFreqMap.get(POS);
