@@ -5,11 +5,19 @@ ParaMaps is the final project for CS203 at Vassar College under Professor Pradha
 # Installation 
 
 By Github...
+
+
 Just clone the repository and run an application configured to 
+
+
 "-src/main/java/frontend/ParaMapsApplication.java"
+
+
 After running, the user should see a GUI open up where text can be added to generate the map.
 
 By ParaMaps.com...
+
+
 Just download the JAR file and ...?
 
 # How to use
