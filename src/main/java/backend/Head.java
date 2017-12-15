@@ -22,12 +22,12 @@ public class Head {
 
     /**
      * Creates head that is capitalized.
-     * @param  head
+     * @param  head to be made.
      */
     protected Head(String head) { this.head = capitalizeHead(head); }
 
     /**
-     * @return the current head
+     * @return the current head.
      */
     protected String getHead() {
         return this.head;
@@ -35,8 +35,8 @@ public class Head {
 
 
     /**
-     * Sets head to value of string
-     * @param head
+     * Sets head to value of string.
+     * @param head the new head string.
      */
     protected void setHead(String head) {
         this.head = capitalizeHead(head);
@@ -44,8 +44,8 @@ public class Head {
 
     /**
      * Capitalizes first letter of head
-     * @param head
-     * @return head with capital string
+     * @param head that needs to be capitalized.
+     * @return head with capital string.
      */
     protected String capitalizeHead(String head) {
         String result = head.substring(0, 1).toUpperCase() + head.substring(1);
