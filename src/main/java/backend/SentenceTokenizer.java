@@ -10,15 +10,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SentenceTokenizer implements Tokenizer {
-    // The SentenceTokenizer's purpose is to tokenize a String input based on OpenNLP's
-    //  sentence tokenizer model. (i.e. sentence; after sentence-ending punctuations)
+    /**
+     * The SentenceTokenizer's purpose is to tokenize a String input based on OpenNLP's
+     * sentence tokenizer model. (i.e. sentence; after sentence-ending punctuations)
+     */
 
-    // Class Variables
+
+    /**
+     * SentenceDetectorME is an instance of sentenceDetector
+     * Class Variable sentences is an ArrayList of String
+     */
+
     private SentenceDetectorME sentenceDetector;
     private ArrayList<String> sentences;
 
-    // SentenceTokenizer() creates a sentenceDetector model and instantiates an ArrayList<String> to
-    //  hold the tokenized sentences.
+    /**
+     * SentenceTokenizer() creates a sentenceDetector model and instantiates an ArrayList<String> to
+     * hold the tokenized sentences.
+     * @throws Exception
+     */
     public SentenceTokenizer() throws Exception {
         File file = new File("src/models/en-sent.bin");
         BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file));
@@ -27,14 +37,19 @@ public class SentenceTokenizer implements Tokenizer {
         sentences = new ArrayList<>();
     }
 
-    // tokenize(String) takes in a String input and tokenizes it by sentences.
+    /**
+     * tokenize(String) takes in a String input and tokenizes it by sentences.
+     * @param text String Input
+     */
     public void tokenize(String text) {
         String sentenceArr[] = sentenceDetector.sentDetect(text);
         this.sentences = new ArrayList<>(Arrays.asList(sentenceArr));
     }
 
-    // getTokens() returns the list of sentences.
+    /**
+     * getTokens() returns the ArrayList of sentences.
+     * @return returns the ArrayList of sentences
+     */
     public ArrayList<String> getTokens() {
         return this.sentences;
     }
-}
