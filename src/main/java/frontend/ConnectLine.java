@@ -6,10 +6,6 @@ import java.awt.geom.Point2D;
 /**
  * The class represents base line model and rendering according to multiple params.
  *
- * <p>Copyright: Copyright (c) 2007</p>
- *
- * @author Stanislav Lapitsky
- * @version 1.0
  */
 
 public class ConnectLine {
