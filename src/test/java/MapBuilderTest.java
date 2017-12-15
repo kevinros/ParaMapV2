@@ -3,7 +3,7 @@ import main.java.backend.Box;
 import main.java.backend.BoxBuilder;
 import main.java.backend.MapBuilder;
 import main.java.backend.ParaMap;
-import org.junit.test;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +45,7 @@ public class MapBuilderTest {
         testBoxes.add(jupiter);
         testBoxes.add(planet);
 
-        assertEquals(boxes.containsAll(testBoxes));
+        assertEquals(false, boxes.containsAll(testBoxes));
 
 
 
