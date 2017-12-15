@@ -49,7 +49,7 @@ public class TextSimplifier {
 
     /**
      * getWordFrequencyMap() returns the HashMap of the word-frequency map.
-     * @return
+     * @return HashMap<>
      * @throws Exception
      */
     public HashMap<String, Integer> getWordFrequencyMap() throws Exception {
@@ -111,7 +111,7 @@ public class TextSimplifier {
      * createSubjectList creates an ArrayList of strings by going through the tagged sentences
      * and extracts the subjects.
      *
-     * @return
+     * @return ArrayList
      */
     private ArrayList<String> createSubjectList() {
         ArrayList<String> subjects = new ArrayList<>();
@@ -159,7 +159,7 @@ public class TextSimplifier {
 
     /**
      * getSimplifiedSentences returns the final version of the simplified sentence.
-     * @return
+     * @return ArrayList
      * @throws Exception
      */
     public ArrayList<String> getSimplifiedSentences() throws Exception {
