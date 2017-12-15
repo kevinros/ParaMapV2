@@ -7,7 +7,7 @@ ParaMaps is the final project for CS203 at Vassar College under Professor Pradha
 By Github...
 
 
-Just clone the repository and run an application configured to 
+Just clone the repository and run the command "mvn exec:java". Additionally, the class path for main can be manually set in config. as:
 
 
 "-src/main/java/frontend/ParaMapsApplication.java"
