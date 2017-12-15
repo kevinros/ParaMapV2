@@ -10,10 +10,6 @@ import java.util.ArrayList;
  * added as usual component. In this case programmer must care about their size,
  * and layout.
  *
- * <p>Copyright: Copyright (c) 2007</p>
- *
- * @author Stanislav Lapitsky
- * @version 1.0
  */
 public class ConnectorContainer extends JPanel {
 //public class ConnectorContainer extends JScrollPane {

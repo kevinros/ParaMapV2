@@ -3,17 +3,33 @@ package main.java.backend;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+/**
+ * WordFrequency implements FreqBuilder and The its purpose is to map
+ * how many times each token occurs in a String input.
+ */
 public class WordFrequency implements FreqBuilder{
-    // The WordFrequency's purpose is to map how many times each token occurs in a String input.
 
-    // Class Variables
+
+    /**
+     * frequencyMap is a hashmap that stores each word and the
+     * the number of times it appears in the input.
+     */
     private HashMap<String, Integer> frequencyMap;
+    /**
+     * wsTokenizer is a WhiteSpaceTokenizer instance used to
+     * tokenize the sentences.
+     */
     private WhiteSpaceTokenizer wsTokenizer;
+    /**
+     * tokens is an ArrayList that stores each word.
+     */
     private ArrayList<String> tokens;
 
-    // WordFrequency() instantiates an empty HashMap<String, Integer> which will hold the frequency
-    //  for each String token.
+
+    /**
+     * WordFrequency() instantiates an empty HashMap<String, Integer> which
+     * will hold the frequency for each String token.
+     */
     public WordFrequency() throws Exception{
 
         this.frequencyMap = new HashMap<String, Integer>();
@@ -21,14 +37,14 @@ public class WordFrequency implements FreqBuilder{
 
     }
 
-    // findFrequency(List<String>) takes in a list of Strings and records the frequency of their occurrence in
-    //  a HashMap
+    /**
+     *     findFrequency(List<String>) takes in a list of Strings and
+     *     records the frequency of their occurrence in a HashMap.
+     */
     @Override
     public HashMap<String, Integer> buildFrequencyMap(String stringInput) {
 
-        this.frequencyMap.clear(); // Allows findFrequency to be reusable. Therefore, only one
-        // object of WordFrequency needs to be instantiated.
-
+        this.frequencyMap.clear();
         this.wsTokenizer.tokenize(stringInput);
         this.tokens = this.wsTokenizer.getTokens();
 
@@ -44,7 +60,9 @@ public class WordFrequency implements FreqBuilder{
 
     }
 
-    // printFrequency() prints out the contents of frequencyMap in the form <String> : <frequency (int)>
+    /**
+     *  printFrequency() prints out the contents of frequencyMap in the form <String> : <frequency (int)>.
+     */
     @Override
     public void printFrequencyMap() {
         for (String token : this.frequencyMap.keySet()) {
@@ -54,3 +72,4 @@ public class WordFrequency implements FreqBuilder{
 
 
 }
+

@@ -11,30 +11,39 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-public class WhiteSpaceTokenizer implements Tokenizer {
-    // The WhiteSpaceTokenizer's purpose is to tokenize a String input based on OpenNLP's
-    //  whitespace tokenizer model. (i.e. every word)
+/**
+ * The WhiteSpaceTokenizer's purpose is to tokenize a String input based on
+ * OpenNLP's whitespace tokenizer model (i.e. every word).
+ */
 
-    // Class Variables
-    //private TokenizerME tokenizer;
+public class WhiteSpaceTokenizer implements Tokenizer {
+
+
+    /**
+     * wst is an instance of WhitespaceTokenizer used to tokenize sentences.
+     */
     private WhitespaceTokenizer wst;
+
+    /**
+     * tokens is an ArrayList used to store tokens.
+     */
     private ArrayList<String> tokens;
 
-    // WhiteSpaceTokenizer() creates a tokenizer model and instantiates an ArrayList<String> to
-    //  hold the tokenized tokens.
+    /**
+     * WhiteSpaceTokenizer() creates a tokenizer model and instantiates an
+     * ArrayList<String> to hold the tokenized tokens.
+     */
     public WhiteSpaceTokenizer() throws Exception {
 
-        /*File file = new File("src/models/en-token.bin");
-        InputStream inputStream = new FileInputStream(file);
-        TokenizerModel tokenModel = new TokenizerModel(inputStream); // Loading the Tokenizer models
-        this.tokenizer = new TokenizerME(tokenModel); // Instantiating the TokenizerME class */
         this.wst = WhitespaceTokenizer.INSTANCE;
         this.tokens = new ArrayList<>();
 
     }
 
-    // tokenize(String) takes in a String, in this case a sentence, and splits it by whitespace using
-    //  the tokenizer.
+    /**
+     * tokenize(String) takes in a String, in this case a sentence, and splits it by whitespace using the tokenizer.
+     * @param sentence
+     */
     public void tokenize(String sentence) {
         String[] tokenArray = this.wst.tokenize(sentence);
         this.tokens = new ArrayList<>(Arrays.asList(tokenArray));
@@ -42,7 +51,9 @@ public class WhiteSpaceTokenizer implements Tokenizer {
 
     }
 
-    // removePunctuation() removes any punctuation found in the token list.
+    /**
+     * removePunctuation() removes any punctuation found in the token list.
+     */
     public void removePunctuations() {
         for (int i = 0; i < this.tokens.size(); i++) {
             // If our token is a punctuation mark, we want to remove it.
@@ -53,10 +64,13 @@ public class WhiteSpaceTokenizer implements Tokenizer {
         }
     }
 
-    // getTokens() returns the list of tokens
+    /**
+     * getTokens() returns the list of tokens
+     */
     public ArrayList<String> getTokens() {
         return this.tokens;
     }
 
 }
+
 
