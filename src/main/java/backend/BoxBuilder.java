@@ -9,7 +9,8 @@ public class BoxBuilder {
 
 
     /**
-     * box is na instance of Box.
+     * box is an
+     * instance of Box.
      */
     private Box box;
 
